@@ -1,8 +1,12 @@
 import "./Auth.css";
 import { Lock, Mail, Send, UserRound } from 'lucide-react';
+import { useState } from "react";
 import { Link } from 'react-router-dom';
 
 const Auth = () => {
+  const [username,setUsername]=useState('');
+  const [email,setEmail]=useState('');
+  const [password,setPassword]=useState('');
   return (
     <>
     <div className="bg_image h-screen w-full">
@@ -15,22 +19,31 @@ const Auth = () => {
               <input type="text" name="username"
                id="username" className="outline-none w-full bg-transparent"
                placeholder="Izzatbek"
+               value={username}
+               onChange={(e)=>setUsername(e.target.value)}
+               required
                 />
             </div>
             <div className="form_input border p-3 rounded-md">
               <Mail size={20} />
               <input type="email" name="email" id="email"
-               placeholder="examplw@gmail.com" className="outline-none w-full bg-transparent" />
+               placeholder="examplw@gmail.com" className="outline-none w-full bg-transparent"
+               value={email}
+               onChange={(e)=>setEmail(e.target.value)}
+                required />
             </div>
             <div className="form_input border p-3 rounded-md">
               <Lock size={20} />
               <input type="password" name="password" id="password"
-               placeholder="********" className="outline-none w-full bg-transparent" />
+               placeholder="********" className="outline-none w-full bg-transparent"
+               value={password}
+               onChange={(e)=>setPassword(e.target.value)}
+                required />
             </div>
             <div className="flex items-center justify-center mx-auto gap-3
              bg_color text-black p-3 rounded-md shadow-md cursor-pointer hover:bg-gray-300 transition duration-300">
               <Send size={20} />
-              <input type="button" value={"Sign Up"} />
+              <input type="submit" value={"Sign Up"} />
             </div>
           </form>
           <div className="flex items-center justify-between py-4 text-sm">
