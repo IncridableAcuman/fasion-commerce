@@ -1,4 +1,7 @@
 package com.app.backend.exception;
 
-public class ForbiddenExceptionHandler {
+public class ForbiddenExceptionHandler extends RuntimeException{
+    public ForbiddenExceptionHandler(String message){
+        super(message);
+    }
 }
