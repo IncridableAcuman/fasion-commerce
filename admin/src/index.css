@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+.bg_color{
+    background-color: #FFD43B;
+    color: white;
+}
+.text_color{
+    color: #FFD43B;
+}
