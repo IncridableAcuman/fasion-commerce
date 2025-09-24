@@ -2,6 +2,7 @@ package com.app.backend.services;
 
 import com.app.backend.entities.Token;
 import com.app.backend.entities.User;
+import com.app.backend.exception.BadRequestExceptionHandler;
 import com.app.backend.repositories.TokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,5 +32,10 @@ public class TokenService {
         },
                 ()->createToken(user,refreshToken)
         );
+    }
+    public void validateToken(String refreshToken){
+        if(refreshToken==null || !refreshToken.startsWith("Bearer ")){
+            throw new BadRequestExceptionHandler("Invalid token");
+        }
     }
 }

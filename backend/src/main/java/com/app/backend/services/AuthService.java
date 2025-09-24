@@ -3,8 +3,8 @@ package com.app.backend.services;
 import com.app.backend.dto.AuthRequest;
 import com.app.backend.dto.AuthResponse;
 import com.app.backend.dto.RegisterRequest;
-import com.app.backend.entities.Token;
 import com.app.backend.entities.User;
+import com.app.backend.exception.BadRequestExceptionHandler;
 import com.app.backend.utils.CookieUtil;
 import com.app.backend.utils.JWTUtil;
 import jakarta.servlet.http.HttpServletResponse;
@@ -42,5 +42,20 @@ public class AuthService {
         tokenService.authToken(user,refreshToken);
         cookieUtil.addCookie(refreshToken,response);
         return authResponse(user,accessToken,refreshToken);
+    }
+
+    @Transactional
+    public AuthResponse refresh(String refreshToken,HttpServletResponse response){
+        tokenService.validateToken(refreshToken);
+        if(!jwtUtil.validateToken(refreshToken)){
+            throw new BadRequestExceptionHandler("Invalid token");
+        }
+        String email= jwtUtil.extractSubject(refreshToken);
+        User user=userService.findUser(email);
+        String newAccessToken= jwtUtil.generateAccessToken(user);
+        String newRefreshToken= jwtUtil.generateRefreshToken(user);
+        tokenService.authToken(user,newRefreshToken);
+        cookieUtil.addCookie(refreshToken,response);
+        return authResponse(user,newAccessToken,newRefreshToken);
     }
 }
