@@ -50,7 +50,7 @@ const Auth = () => {
                   <div className="form_input border p-3 rounded-md">
                   <Mail size={20} />
                   <input type="email" name="email" id="email"
-                  placeholder="examplw@gmail.com" className="outline-none w-full bg-transparent"
+                  placeholder="example@gmail.com" className="outline-none w-full bg-transparent"
                   value={email}
                   onChange={(e)=>setEmail(e.target.value)}
                     required />

@@ -12,7 +12,7 @@ public class CookieUtil {
     public void addCookie(String refreshToken, HttpServletResponse response){
         Cookie cookie=new Cookie("refreshToken",refreshToken);
         cookie.setSecure(false);
-        cookie.setMaxAge(refreshTime/1000);
+        cookie.setMaxAge(refreshTime);
         cookie.setPath("/**");
         cookie.setHttpOnly(true);
         cookie.setValue(refreshToken);
