@@ -2,6 +2,17 @@ server:
   port: ${PORT}
 
 spring:
+  mail:
+      host: smtp.gmail.com
+      port: 587
+      username: ${SMTP_USER}
+      password: ${SMTP_PASS}
+      properties:
+        mail:
+          smtp:
+            auth: true
+            starttls:
+              enable: true
   data:
     mongodb:
       host: ${HOST}
