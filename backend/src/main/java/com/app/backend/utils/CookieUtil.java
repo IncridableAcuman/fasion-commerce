@@ -1,9 +1,10 @@
 package com.app.backend.utils;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class CookieUtil {
@@ -13,7 +14,7 @@ public class CookieUtil {
         Cookie cookie=new Cookie("refreshToken",refreshToken);
         cookie.setSecure(false);
         cookie.setMaxAge(refreshTime);
-        cookie.setPath("/**");
+        cookie.setPath("/");
         cookie.setHttpOnly(true);
         cookie.setValue(refreshToken);
         response.addCookie(cookie);
@@ -22,7 +23,7 @@ public class CookieUtil {
         Cookie cookie=new Cookie("refreshToken",null);
         cookie.setSecure(false);
         cookie.setMaxAge(0);
-        cookie.setPath("/**");
+        cookie.setPath("/");
         cookie.setHttpOnly(true);
         cookie.setValue(null);
         response.addCookie(cookie);

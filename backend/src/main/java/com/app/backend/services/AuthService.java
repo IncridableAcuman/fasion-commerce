@@ -1,5 +1,8 @@
 package com.app.backend.services;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.app.backend.dto.AuthRequest;
 import com.app.backend.dto.AuthResponse;
 import com.app.backend.dto.RegisterRequest;
@@ -7,10 +10,9 @@ import com.app.backend.entities.User;
 import com.app.backend.exception.BadRequestExceptionHandler;
 import com.app.backend.utils.CookieUtil;
 import com.app.backend.utils.JWTUtil;
+
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -55,7 +57,7 @@ public class AuthService {
         String newAccessToken= jwtUtil.generateAccessToken(user);
         String newRefreshToken= jwtUtil.generateRefreshToken(user);
         tokenService.authToken(user,newRefreshToken);
-        cookieUtil.addCookie(refreshToken,response);
+        cookieUtil.addCookie(newRefreshToken,response);
         return authResponse(user,newAccessToken,newRefreshToken);
     }
 }
