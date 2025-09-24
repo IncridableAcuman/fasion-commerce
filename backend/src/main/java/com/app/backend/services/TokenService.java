@@ -39,4 +39,8 @@ public class TokenService {
             throw new BadRequestExceptionHandler("Invalid token");
         }
     }
+    public void deleteToken(User user){
+        Token token=tokenRepository.findByUserId(user.getId()).orElseThrow(()->new NotFoundExceptionHandler("User not found"));
+        tokenRepository.delete(token);
+    }
 }

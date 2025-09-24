@@ -48,6 +48,9 @@ public class AuthService {
 
     @Transactional
     public AuthResponse refresh(String refreshToken,HttpServletResponse response){
+        if(refreshToken==null){
+            throw new BadRequestExceptionHandler("Token is required or expired");
+        }
         if(!jwtUtil.validateToken(refreshToken)){
             throw new BadRequestExceptionHandler("Invalid token");
         }
@@ -58,5 +61,16 @@ public class AuthService {
         tokenService.authToken(user,newRefreshToken);
         cookieUtil.addCookie(newRefreshToken,response);
         return authResponse(user,newAccessToken,newRefreshToken);
+    }
+
+    @Transactional
+    public void logout(String refreshToken,HttpServletResponse response){
+        if(refreshToken==null || !jwtUtil.validateToken(refreshToken)){
+            throw new BadRequestExceptionHandler("Token is invalid or expired");
+        }
+        String email= jwtUtil.extractSubject(refreshToken);
+        User user=userService.findUser(email);
+        tokenService.deleteToken(user);
+        cookieUtil.clearCookie(response);
     }
 }
