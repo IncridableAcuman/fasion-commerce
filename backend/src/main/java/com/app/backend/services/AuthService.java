@@ -52,6 +52,7 @@ public class AuthService {
         if(!jwtUtil.validateToken(refreshToken)){
             throw new BadRequestExceptionHandler("Invalid token");
         }
+        tokenService.findByRefreshToken(refreshToken);
         String email= jwtUtil.extractSubject(refreshToken);
         User user=userService.findUser(email);
         String newAccessToken= jwtUtil.generateAccessToken(user);

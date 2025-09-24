@@ -3,6 +3,7 @@ package com.app.backend.services;
 import com.app.backend.entities.Token;
 import com.app.backend.entities.User;
 import com.app.backend.exception.BadRequestExceptionHandler;
+import com.app.backend.exception.NotFoundExceptionHandler;
 import com.app.backend.repositories.TokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,5 +38,8 @@ public class TokenService {
         if(refreshToken==null || !refreshToken.startsWith("Bearer ")){
             throw new BadRequestExceptionHandler("Invalid token");
         }
+    }
+    public void findByRefreshToken(String refreshToken){
+        tokenRepository.findByRefreshToken(refreshToken).orElseThrow(()->new NotFoundExceptionHandler("Token not found"));
     }
 }
