@@ -38,4 +38,8 @@ public class UserService {
             throw new BadRequestExceptionHandler("Password is mismatch");
         }
     }
+    public void updatePassword(User user,String password){
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
+    }
 }

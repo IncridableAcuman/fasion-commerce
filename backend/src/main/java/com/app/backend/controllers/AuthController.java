@@ -1,11 +1,9 @@
 package com.app.backend.controllers;
 
+import com.app.backend.dto.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.app.backend.dto.AuthRequest;
-import com.app.backend.dto.AuthResponse;
-import com.app.backend.dto.RegisterRequest;
 import com.app.backend.services.AuthService;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -37,5 +35,15 @@ public class AuthController {
     public ResponseEntity<String> logout(@CookieValue(name = "refreshToken",required = false) String refreshToken,HttpServletResponse response){
         authService.logout(refreshToken,response);
         return ResponseEntity.ok("Logged out");
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> forgotPassword(@Valid @RequestBody ForgotPassword forgotPassword){
+        return ResponseEntity.ok(authService.forgotPassword(forgotPassword));
+    }
+
+    @PutMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestBody ResetPassword resetPassword){
+        return ResponseEntity.ok(authService.updatePassword(resetPassword));
     }
 }

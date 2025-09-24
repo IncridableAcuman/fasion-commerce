@@ -1,11 +1,10 @@
 package com.app.backend.services;
 
+import com.app.backend.dto.*;
+import com.app.backend.utils.MailUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.app.backend.dto.AuthRequest;
-import com.app.backend.dto.AuthResponse;
-import com.app.backend.dto.RegisterRequest;
 import com.app.backend.entities.User;
 import com.app.backend.exception.BadRequestExceptionHandler;
 import com.app.backend.utils.CookieUtil;
@@ -21,6 +20,7 @@ public class AuthService {
     private final JWTUtil jwtUtil;
     private final TokenService tokenService;
     private final CookieUtil cookieUtil;
+    private final MailUtil mailUtil;
 
     public AuthResponse authResponse(User user,String accessToken,String refreshToken){
         return new AuthResponse(user.getId(), user.getUsername(), user.getEmail(), user.getRole(), accessToken, refreshToken);}
@@ -48,12 +48,8 @@ public class AuthService {
 
     @Transactional
     public AuthResponse refresh(String refreshToken,HttpServletResponse response){
-        if(refreshToken==null){
-            throw new BadRequestExceptionHandler("Token is required or expired");
-        }
-        if(!jwtUtil.validateToken(refreshToken)){
-            throw new BadRequestExceptionHandler("Invalid token");
-        }
+        if(refreshToken==null){throw new BadRequestExceptionHandler("Token is required or expired");}
+        if(!jwtUtil.validateToken(refreshToken)){throw new BadRequestExceptionHandler("Invalid token");}
         String email= jwtUtil.extractSubject(refreshToken);
         User user=userService.findUser(email);
         String newAccessToken= jwtUtil.generateAccessToken(user);
@@ -65,12 +61,30 @@ public class AuthService {
 
     @Transactional
     public void logout(String refreshToken,HttpServletResponse response){
-        if(refreshToken==null || !jwtUtil.validateToken(refreshToken)){
-            throw new BadRequestExceptionHandler("Token is invalid or expired");
-        }
+        if(refreshToken==null || !jwtUtil.validateToken(refreshToken)){throw new BadRequestExceptionHandler("Token is invalid or expired.");}
         String email= jwtUtil.extractSubject(refreshToken);
         User user=userService.findUser(email);
         tokenService.deleteToken(user);
         cookieUtil.clearCookie(response);
+    }
+
+    @Transactional
+    public String forgotPassword(ForgotPassword forgotPassword){
+        User user=userService.findUser(forgotPassword.getEmail());
+        String token= jwtUtil.generateAccessToken(user);
+        String url="http://localhost:5173/reset-password?token="+token;
+        mailUtil.sendMail(user.getEmail(), "Reset Password",url);
+        return "Reset password link sent to email.";
+    }
+
+    @Transactional
+    public String updatePassword(ResetPassword resetPassword){
+        if(!jwtUtil.validateToken(resetPassword.getToken())){
+            throw new BadRequestExceptionHandler("Token is invalid or expired.");
+        }
+        String email= jwtUtil.extractSubject(resetPassword.getToken());
+        User user=userService.findUser(email);
+        userService.updatePassword(user, resetPassword.getPassword());
+        return "Password has updated successfully";
     }
 }
