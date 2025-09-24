@@ -11,6 +11,6 @@ public class AuthRequest {
     @Email
     private String email;
     @NotBlank(message = "Password must be required")
-    @Size(min = 8,max = 1024,message = "Email must between 3 and 1024 character!")
+    @Size(min = 8,max = 1024,message = "Password must between 3 and 1024 character!")
     private String password;
 }

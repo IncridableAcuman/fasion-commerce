@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
         ErrorResponse response=new ErrorResponse(
                 HttpStatus.NOT_FOUND.getReasonPhrase(),
                 e.getMessage(),
-                HttpStatus.NO_CONTENT.value(),
+                HttpStatus.NOT_FOUND.value(),
                 request.getRequestURI(),
                 LocalDateTime.now()
         );

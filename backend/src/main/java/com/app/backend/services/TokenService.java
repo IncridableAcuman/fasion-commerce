@@ -39,7 +39,4 @@ public class TokenService {
             throw new BadRequestExceptionHandler("Invalid token");
         }
     }
-    public void findByRefreshToken(String refreshToken){
-        tokenRepository.findByRefreshToken(refreshToken).orElseThrow(()->new NotFoundExceptionHandler("Token not found"));
-    }
 }

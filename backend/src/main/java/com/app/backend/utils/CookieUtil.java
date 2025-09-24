@@ -16,7 +16,6 @@ public class CookieUtil {
         cookie.setMaxAge(refreshTime);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
-        cookie.setValue(refreshToken);
         response.addCookie(cookie);
     }
     public void clearCookie(HttpServletResponse response){
@@ -25,7 +24,6 @@ public class CookieUtil {
         cookie.setMaxAge(0);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
-        cookie.setValue(null);
         response.addCookie(cookie);
     }
 }
