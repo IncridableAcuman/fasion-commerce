@@ -36,7 +36,7 @@ public class ProductService {
         product.setTitle(request.getTitle());
         product.setContent(request.getContent());
         product.setPrice(request.getPrice());
-        product.setCategory(product.getCategory());
+        product.setCategory(request.getCategory());
         String base64Image= Base64.getEncoder().encodeToString(request.getImage().getBytes());
         product.setImage(base64Image);
         productRepository.save(product);

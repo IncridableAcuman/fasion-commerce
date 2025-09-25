@@ -18,9 +18,13 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
 
-    @PostMapping("/product/create")
-    public ResponseEntity<ProductResponse> create(@Valid @RequestBody ProductRequest request) throws IOException {
-        return ResponseEntity.ok(productService.create(request));
+    @PostMapping("/create")
+    public ResponseEntity<ProductResponse> create(@Valid @ModelAttribute ProductRequest request) throws IOException {
+        try {
+            return ResponseEntity.ok(productService.create(request));
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @GetMapping("/")
@@ -28,18 +32,18 @@ public class ProductController {
         return ResponseEntity.ok(productService.getProducts());
     }
 
-    @GetMapping("/{category}")
+    @GetMapping("/category/{category}")
     public ResponseEntity<List<ProductResponse> > getProductsByCategory(@PathVariable Category category){
         return ResponseEntity.ok(productService.getProductsByCategory(category));
     }
 
-    @DeleteMapping("/product/delete/{id}")
+    @DeleteMapping("/product/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable String id){
         return ResponseEntity.ok(productService.deleteProduct(id));
     }
 
-    @PutMapping("/product/update/{id}")
-    public ResponseEntity<String> updateProduct(@PathVariable String id,@Valid @RequestBody ProductRequest request) throws IOException{
+    @PutMapping("/product/{id}")
+    public ResponseEntity<String> updateProduct(@PathVariable String id,@Valid @ModelAttribute ProductRequest request) throws IOException{
         return ResponseEntity.ok(productService.updateProduct(id,request));
     }
 }
