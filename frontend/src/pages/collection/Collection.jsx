@@ -1,7 +1,7 @@
-import "./Cart.css"
 import Navbar from '../../components/Navbar'
+import "./Collection.css";
 
-const Cart = () => {
+const Collection = () => {
   return (
     <>
     <Navbar/>
@@ -9,4 +9,4 @@ const Cart = () => {
   )
 }
 
-export default Cart
+export default Collection

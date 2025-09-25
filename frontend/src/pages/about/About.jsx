@@ -1,8 +1,11 @@
 import "./About.css";
+import Navbar from '../../components/Navbar'
 
 const About = () => {
   return (
-    <div>About</div>
+    <>
+    <Navbar/>
+    </>
   )
 }
 
