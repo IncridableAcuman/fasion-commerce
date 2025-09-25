@@ -17,11 +17,11 @@ const Navbar = () => {
     initial={{y:-80, opacity:0}}
     animate={{y:0,opacity:1}}
     transition={{duration:0.5}}
-    className=' fiex top-0 left-0 w-full  flex items-center justify-between p-4 pdg shadow'>
+    className=' fiex top-0 left-0 w-full  flex items-center justify-between p-4 pdg shadow-lg text_color z-50 opacity-80'>
       <motion.h1 
       whileHover={{scale:1.2}}
       whileTap={{transition:0.5}}
-      className='cursor-pointer text-xl font-semibold text-[#222831]'>Fashion</motion.h1>
+      className='cursor-pointer text-xl font-semibold'>Fashion</motion.h1>
       <div className="hidden md:block">
         <motion.div className='flex items-center gap-4'>
         {
@@ -30,7 +30,7 @@ const Navbar = () => {
             whileHover={{scale:1.2}}
             whileTap={{transition:1}}
             className='list-none text-sm'>
-                <Link to={link.to} className='text-[#222831] hover:text-[#3F72AF] transition duration-300'>{link.name}</Link>
+                <Link to={link.to} className=' transition duration-300'>{link.name}</Link>
             </motion.li>
           ))
         }
@@ -38,9 +38,9 @@ const Navbar = () => {
       </div>
       {/* icons */}
       <motion.div className='flex items-center gap-4'>
-        <Search size={20} className='cursor-pointer text-[#112D4E]' />
-        <UserRound size={20} className='cursor-pointer text-[#112D4E]' />
-        <ShoppingBasket size={20} className='cursor-pointer text-[#112D4E]' onClick={()=>navigate("/cart")} />
+        <Search size={20} className='cursor-pointer ' />
+        <UserRound size={20} className='cursor-pointer ' />
+        <ShoppingBasket size={20} className='cursor-pointer' onClick={()=>navigate("/cart")} />
       </motion.div>
     </motion.nav>
     </>

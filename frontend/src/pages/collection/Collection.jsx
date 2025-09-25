@@ -4,7 +4,9 @@ import "./Collection.css";
 const Collection = () => {
   return (
     <>
-    <Navbar/>
+    <div className="bg-gray-900 text-white min-h-screen w-full">
+    <Navbar/>      
+    </div>
     </>
   )
 }
