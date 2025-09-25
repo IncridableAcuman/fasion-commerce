@@ -1,12 +1,14 @@
 import "./Contact.css";
 import Navbar from '../../components/Navbar'
+import Footer from '../../components/Footer'
 
 const Contact = () => {
   return (
     <>
-    <div className="bg-gray-900 text-white min-h-screen w-full">
+    <div className="w-full min-h-screen">
     <Navbar/>      
     </div>
+    <Footer/>
     </>
   )
 }

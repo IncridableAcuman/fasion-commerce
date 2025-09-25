@@ -14,14 +14,14 @@ const Auth = () => {
 
   return (
     <>
-    <div className="bg_image h-screen w-full">
-      <div className="w-full h-screen bg-gray-900 opacity-80 text-white mx-auto flex flex-col items-center justify-center">
+    <div className="min-h-screen w-full bg_image">
+      <div className="w-full pt-24  mx-auto flex flex-col items-center justify-center">
         <motion.div className="w-full"
         initial={{opacity:0,y:-50}}
         animate={{opacity:1,y:0}}
         transition={{duration:1}}
         >
-            <div className="w-full max-w-md p-6 rounded-md shadow-md bg-black mx-auto text-white">
+            <div className="w-full max-w-md p-6 rounded-md shadow-md bg-black mx-auto text-white opacity-80">
           <h1 className="text-3xl font-semibold pb-5 text_color">{state ? "Sign Up": "Sign In"}</h1>
           <form className="space-y-4">
             {state && (

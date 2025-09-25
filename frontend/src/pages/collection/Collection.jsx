@@ -1,12 +1,14 @@
 import Navbar from '../../components/Navbar'
 import "./Collection.css";
+import Footer from '../../components/Footer'
 
 const Collection = () => {
   return (
     <>
-    <div className="bg-gray-900 text-white min-h-screen w-full">
+    <div className="w-full min-h-screen">
     <Navbar/>      
     </div>
+    <Footer/>
     </>
   )
 }
