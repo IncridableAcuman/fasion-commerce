@@ -7,17 +7,30 @@ import com.app.backend.enums.Category;
 import com.app.backend.exception.NotFoundExceptionHandler;
 import com.app.backend.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Base64;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
+    @Value("${file.upload_dir}")
+    private String uploadDirection;
+
+    public String saveFile(MultipartFile file) throws IOException {
+        String file_name=System.currentTimeMillis()+file.getOriginalFilename();
+        Path file_path= Paths.get(uploadDirection,file_name);
+        Files.write(file_path,file.getBytes());
+        return "/uploads/"+file_name;
+    }
 
     public ProductResponse productResponse(Product product){
         return new ProductResponse(
@@ -37,8 +50,10 @@ public class ProductService {
         product.setContent(request.getContent());
         product.setPrice(request.getPrice());
         product.setCategory(request.getCategory());
-        String base64Image= Base64.getEncoder().encodeToString(request.getImage().getBytes());
-        product.setImage(base64Image);
+        if(request.getImage()!=null && !request.getImage().isEmpty()){
+            String imageUrl=saveFile(request.getImage());
+            product.setImage(imageUrl);
+        }
         productRepository.save(product);
         return productResponse(product);
     }
@@ -69,8 +84,10 @@ public class ProductService {
         product.setContent(request.getContent());
         product.setCategory(request.getCategory());
         product.setPrice(request.getPrice());
-        String base64Image=Base64.getEncoder().encodeToString(request.getImage().getBytes());
-        product.setImage(base64Image);
+        if(request.getImage()!=null && !request.getImage().isEmpty()){
+            String imageUrl=saveFile(request.getImage());
+            product.setImage(imageUrl);
+        }
         productRepository.save(product);
         return "Updated successfully";
     }
