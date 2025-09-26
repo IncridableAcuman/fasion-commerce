@@ -4,6 +4,7 @@ import com.app.backend.dto.ProductRequest;
 import com.app.backend.dto.ProductResponse;
 import com.app.backend.entities.Product;
 import com.app.backend.enums.Category;
+import com.app.backend.exception.BadRequestExceptionHandler;
 import com.app.backend.exception.NotFoundExceptionHandler;
 import com.app.backend.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,11 +25,15 @@ public class ProductService {
     @Value("${file.upload_dir}")
     private String uploadDirection;
 
-    public String saveFile(MultipartFile file) throws IOException {
-        String file_name=System.currentTimeMillis()+file.getOriginalFilename();
-        Path file_path= Paths.get(uploadDirection,file_name);
-        Files.write(file_path,file.getBytes());
-        return "/uploads/"+file_name;
+    public String saveFile(MultipartFile file){
+        try{
+            String file_name=System.currentTimeMillis()+file.getOriginalFilename();
+            Path file_path= Paths.get(uploadDirection,file_name);
+            Files.write(file_path,file.getBytes());
+            return "/uploads/"+file_name;
+        } catch (Exception e) {
+            throw new BadRequestExceptionHandler(e.getMessage());
+        }
     }
 
     public ProductResponse productResponse(Product product){
@@ -44,7 +48,7 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductResponse create (ProductRequest request) throws IOException {
+    public ProductResponse create (ProductRequest request)   {
         Product product=new Product();
         product.setTitle(request.getTitle());
         product.setContent(request.getContent());
@@ -78,7 +82,7 @@ public class ProductService {
     }
 
     @Transactional
-    public String updateProduct(String id,ProductRequest request) throws IOException {
+    public String updateProduct(String id,ProductRequest request)  {
         Product product=productRepository.findById(id).orElseThrow(()->new NotFoundExceptionHandler("Product not found"));
         product.setTitle(request.getTitle());
         product.setContent(request.getContent());
