@@ -3,7 +3,7 @@ import {Facebook,Twitter,Instagram,Youtube} from 'lucide-react';
 const Footer = () => {
   return (
     <>
-    <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 p-6 space-y-4'>
+    <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 p-6 space-y-4 pdg'>
       <div className="space-y-4">
         <h3 className='text-xl font-semibold'>Fashion</h3>
         <div className="space-y-2">
@@ -41,7 +41,6 @@ const Footer = () => {
            iusto quasi error? Esse laborum tempore nam.</p>
       </div>
     </div>
-    <div className="text-center border-t pdg">Created by Izzatbek Abdusharipov</div>
     </>
   )
 }

@@ -17,7 +17,7 @@ const Navbar = () => {
     initial={{y:-80, opacity:0}}
     animate={{y:0,opacity:1}}
     transition={{duration:0.5}}
-    className=' fiex top-0 left-0 w-full  flex items-center justify-between p-4 pdg shadow  z-50 opacity-80'>
+    className=' fiex top-0 left-0 w-full  flex items-center justify-between p-4 pdg shadow  z-50 opacity-80 uppercase'>
       <motion.h1 
       whileHover={{scale:1.2}}
       whileTap={{transition:0.5}}
