@@ -19,6 +19,7 @@ spring:
       port: 27017
       database: ${DATABASE}
 
+
 jwt:
   secret: ${SECRET}
   access_time: ${ACCESS_TIME}

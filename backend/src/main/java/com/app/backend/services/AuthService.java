@@ -1,7 +1,10 @@
 package com.app.backend.services;
 
 import com.app.backend.dto.*;
+import com.app.backend.exception.ServerErrorExceptionHandler;
 import com.app.backend.utils.MailUtil;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -86,5 +89,13 @@ public class AuthService {
         User user=userService.findUser(email);
         userService.updatePassword(user, resetPassword.getPassword());
         return "Password has updated successfully";
+    }
+    public AuthUser response(){
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        Object principal=authentication.getPrincipal();
+        if(principal instanceof User user){
+            return new AuthUser(user.getId(),user.getUsername(),user.getRole());
+        }
+        throw new ServerErrorExceptionHandler("Internal Server Error");
     }
 }

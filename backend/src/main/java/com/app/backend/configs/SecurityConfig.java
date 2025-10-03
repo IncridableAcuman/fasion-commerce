@@ -26,7 +26,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors->cors.configurationSource(config.configurationSource()))
                 .authorizeHttpRequests(
-                        auth->auth.requestMatchers("/api/auth/**","/uploads/**").permitAll()
+                        auth->auth.requestMatchers("/api/auth/**",
+                                        "/uploads/**"
+                                ).permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session->

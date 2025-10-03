@@ -4,37 +4,19 @@ import com.app.backend.dto.ProductRequest;
 import com.app.backend.dto.ProductResponse;
 import com.app.backend.entities.Product;
 import com.app.backend.enums.Category;
-import com.app.backend.exception.BadRequestExceptionHandler;
 import com.app.backend.exception.NotFoundExceptionHandler;
 import com.app.backend.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
-    @Value("${file.upload_dir}")
-    private String uploadDirection;
 
-    public String saveFile(MultipartFile file){
-        try{
-            String file_name=System.currentTimeMillis()+file.getOriginalFilename();
-            Path file_path= Paths.get(uploadDirection,file_name);
-            Files.write(file_path,file.getBytes());
-            return "/uploads/"+file_name;
-        } catch (Exception e) {
-            throw new BadRequestExceptionHandler(e.getMessage());
-        }
-    }
 
     public ProductResponse productResponse(Product product){
         return new ProductResponse(
@@ -52,12 +34,9 @@ public class ProductService {
         Product product=new Product();
         product.setTitle(request.getTitle());
         product.setContent(request.getContent());
-        product.setPrice(request.getPrice());
         product.setCategory(request.getCategory());
-        if(request.getImage()!=null && !request.getImage().isEmpty()){
-            String imageUrl=saveFile(request.getImage());
-            product.setImage(imageUrl);
-        }
+        product.setPrice(request.getPrice());
+        product.setImage(request.getImage());
         productRepository.save(product);
         return productResponse(product);
     }
@@ -88,10 +67,7 @@ public class ProductService {
         product.setContent(request.getContent());
         product.setCategory(request.getCategory());
         product.setPrice(request.getPrice());
-        if(request.getImage()!=null && !request.getImage().isEmpty()){
-            String imageUrl=saveFile(request.getImage());
-            product.setImage(imageUrl);
-        }
+        product.setImage(request.getImage());
         productRepository.save(product);
         return "Updated successfully";
     }

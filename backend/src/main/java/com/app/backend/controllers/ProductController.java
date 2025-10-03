@@ -1,17 +1,9 @@
 package com.app.backend.controllers;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.app.backend.dto.ProductRequest;
 import com.app.backend.dto.ProductResponse;
@@ -30,17 +22,13 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping("/product")
-    public ResponseEntity<ProductResponse> create(@Valid @ModelAttribute ProductRequest request) {
+    public ResponseEntity<ProductResponse> create(@Valid @RequestBody ProductRequest request) {
             return ResponseEntity.ok(productService.create(request));  
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<ProductResponse>> getProducts(){
-       try {
            return ResponseEntity.ok(productService.getProducts());
-       } catch (RuntimeException e) {
-           throw new RuntimeException(e);
-       }
     }
 
     @GetMapping("/category/{category}")
@@ -54,7 +42,7 @@ public class ProductController {
     }
 
     @PutMapping("/product/{id}")
-    public ResponseEntity<String> updateProduct(@PathVariable String id,@Valid @ModelAttribute ProductRequest request)  {
+    public ResponseEntity<String> updateProduct(@PathVariable String id,@Valid @RequestBody ProductRequest request)  {
         return ResponseEntity.ok(productService.updateProduct(id,request));
     }
 }

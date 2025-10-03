@@ -46,4 +46,9 @@ public class AuthController {
     public ResponseEntity<String> resetPassword(@RequestBody ResetPassword resetPassword){
         return ResponseEntity.ok(authService.updatePassword(resetPassword));
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<AuthUser> authUser(){
+        return ResponseEntity.ok(authService.response());
+    }
 }

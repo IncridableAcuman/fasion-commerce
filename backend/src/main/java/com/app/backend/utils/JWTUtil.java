@@ -33,7 +33,7 @@ public class JWTUtil {
                 .claim("role",user.getRole())
                .signWith(getSigningKey())
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis()+(expirationTime* 1000L)))
+                .expiration(new Date(System.currentTimeMillis()+expirationTime))
                 .compact();
     }
     public String generateAccessToken(User user){
