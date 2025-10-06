@@ -1,4 +1,10 @@
 package com.app.backend.dto;
 
-public class CartItemDto {
+public record CartItemDto(
+         String productId,
+         String productName,
+         String productImage,
+         int quantity,
+         Double productPrice
+) {
 }
