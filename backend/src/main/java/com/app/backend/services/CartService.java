@@ -56,5 +56,17 @@ public class CartService {
         return cartRepository.save(cart);
     }
     @Transactional
-    public Cart removeCart()
+    public Cart removeCart(String userId,String productId){
+        Cart cart=getCartForUser(userId);
+        cart.getItems().removeIf(item -> item.getProductId().equals(productId));
+        double total=cart.getItems().stream().mapToDouble(it->it.getProductPrice()*it.getQuantity()).sum();
+        cart.setTotalPrice(total);
+        return cartRepository.save(cart);
+    }
+    @Transactional
+    public void deleteCart(String userId){
+        Cart cart=getCartForUser(userId);
+        cart.setItems(new ArrayList<>());
+        cart.setTotalPrice(0.0);
+    }
 }

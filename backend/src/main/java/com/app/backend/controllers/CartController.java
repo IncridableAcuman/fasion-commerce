@@ -22,4 +22,13 @@ public class CartController {
                                            @RequestParam int quantity){
         return ResponseEntity.ok(cartService.addToCart(userId,productId,quantity));
     }
+    @DeleteMapping
+    public ResponseEntity<Cart> removeCart(@RequestParam String userId,@RequestParam String productId){
+        return ResponseEntity.ok(cartService.removeCart(userId,productId));
+    }
+    @DeleteMapping
+    public ResponseEntity<String> deleteCart(@RequestParam String userId){
+        cartService.deleteCart(userId);
+        return ResponseEntity.ok("Cart deleted successfully");
+    }
 }
