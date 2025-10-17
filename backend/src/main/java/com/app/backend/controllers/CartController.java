@@ -4,10 +4,7 @@ import com.app.backend.entities.Cart;
 import com.app.backend.services.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/carts")
@@ -18,5 +15,11 @@ public class CartController {
     @GetMapping("/{userId}")
     public ResponseEntity<Cart> getCartForUser(@PathVariable String userId){
         return ResponseEntity.ok(cartService.getCartForUser(userId));
+    }
+    @PostMapping
+    public ResponseEntity<Cart> addToCart(@RequestParam String userId,
+                                           @RequestParam String productId,
+                                           @RequestParam int quantity){
+        return ResponseEntity.ok(cartService.addToCart(userId,productId,quantity));
     }
 }
