@@ -47,8 +47,14 @@ public class AuthController {
         return ResponseEntity.ok(authService.updatePassword(resetPassword));
     }
 
-    @GetMapping("/me")
+    @GetMapping
     public ResponseEntity<AuthUser> authUser(){
         return ResponseEntity.ok(authService.response());
+    }
+
+    @PatchMapping("/${id}")
+    public ResponseEntity<String> updateRole(@PathVariable String id){
+        authService.updateRole(id);
+        return ResponseEntity.ok("User: "+ id + "Role update successfully");
     }
 }

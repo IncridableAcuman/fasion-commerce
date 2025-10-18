@@ -1,6 +1,7 @@
 package com.app.backend.services;
 
 import com.app.backend.dto.*;
+import com.app.backend.enums.Role;
 import com.app.backend.exception.ServerErrorExceptionHandler;
 import com.app.backend.utils.MailUtil;
 import org.springframework.security.core.Authentication;
@@ -97,5 +98,12 @@ public class AuthService {
             return new AuthUser(user.getId(),user.getUsername(),user.getRole());
         }
         throw new ServerErrorExceptionHandler("Internal Server Error");
+    }
+    @Transactional
+    public void updateRole(String id){
+        User user=userService.findUserById(id);
+        if (user.getRole()!=null){
+            user.setRole(Role.ADMIN);
+        }
     }
 }

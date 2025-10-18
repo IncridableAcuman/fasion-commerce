@@ -42,4 +42,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
     }
+    public User findUserById(String id){
+        return userRepository.findById(id).orElseThrow(()->new NotFoundExceptionHandler("User not found"));
+    }
 }

@@ -26,7 +26,7 @@ public class CartController {
     public ResponseEntity<Cart> removeCart(@RequestParam String userId,@RequestParam String productId){
         return ResponseEntity.ok(cartService.removeCart(userId,productId));
     }
-    @DeleteMapping
+    @DeleteMapping("/delete")
     public ResponseEntity<String> deleteCart(@RequestParam String userId){
         cartService.deleteCart(userId);
         return ResponseEntity.ok("Cart deleted successfully");
