@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -27,7 +29,7 @@ public class UserService {
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.USER);
-        return userRepository.save(user);
+        return saveUser(user);
     }
     @Transactional
     public User findUser(String email){
@@ -40,9 +42,12 @@ public class UserService {
     }
     public void updatePassword(User user,String password){
         user.setPassword(passwordEncoder.encode(password));
-        userRepository.save(user);
+        saveUser(user);
     }
-    public User findUserById(String id){
-        return userRepository.findById(id).orElseThrow(()->new NotFoundExceptionHandler("User not found"));
+    public Optional<User> findUserById(String id){
+        return userRepository.findById(id);
+    }
+    public User saveUser(User user){
+        return userRepository.save(user);
     }
 }

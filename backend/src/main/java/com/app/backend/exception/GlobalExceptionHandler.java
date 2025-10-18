@@ -55,4 +55,15 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
     }
+    @ExceptionHandler(UnAuthorizeExceptionHandler.class)
+    public ResponseEntity<ErrorResponse> unAuthorize(UnAuthorizeExceptionHandler e,HttpServletRequest request){
+        ErrorResponse response=new ErrorResponse(
+                HttpStatus.UNAUTHORIZED.getReasonPhrase(),
+                e.getMessage(),
+                HttpStatus.UNAUTHORIZED.value(),
+                request.getRequestURI(),
+                LocalDateTime.now()
+        );
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+    }
 }

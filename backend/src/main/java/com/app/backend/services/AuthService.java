@@ -17,6 +17,8 @@ import com.app.backend.utils.JWTUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -101,9 +103,11 @@ public class AuthService {
     }
     @Transactional
     public void updateRole(String id){
-        User user=userService.findUserById(id);
-        if (user.getRole()!=null){
-            user.setRole(Role.ADMIN);
-        }
+        Optional<User> user=userService.findUserById(id);
+            if(user.isEmpty()){
+                throw new UnsupportedOperationException("UnAuthorize");
+            }
+            user.get().setRole(Role.ADMIN);
+            userService.saveUser(user.get());
     }
 }
